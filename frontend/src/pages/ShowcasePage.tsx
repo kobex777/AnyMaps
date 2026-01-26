@@ -11,10 +11,10 @@ const SHOWCASE_ITEMS: ShowcaseItemData[] = [
         title: 'Introduction to The Atelier',
         description: 'A guided tour through the philosophy and mechanics of AI-assisted cartography. Witness how thought becomes structure.',
         type: 'youtube',
-        src: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', // Placeholder - replace with actual video
+        src: 'https://youtu.be/6UT8yip7QfY', // Updated link
         duration: '2:14',
         tags: ['1080P', 'AUDIO', 'DEMO'],
-        thumbnail: 'https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg'
+        thumbnail: 'https://img.youtube.com/vi/6UT8yip7QfY/maxresdefault.jpg'
     },
     // Add more items here easily
 ];
