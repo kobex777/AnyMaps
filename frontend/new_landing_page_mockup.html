@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AnyMaps - AI Mental Cartography</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Inter:wght@100..900&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#003366", // Medici Blue (reserved for accents if needed)
+                        "background-light": "#FFFAF0", // Brighter Ivory
+                        "background-dark": "#0f1923",
+                        "espresso": "#2D241E", // Deep Espresso
+                        "espresso-light": "#3E3228", // Lighter Espresso for UI elements
+                        "gold": "#C5A059", // Venetian Gold
+                        "gold-dark": "#9E7E3C",
+                        "parchment": "#DBCBB6", // Text color for dark backgrounds
+                        "verdant-start": "#dcebd5", // Light sage green
+                        "verdant-mid": "#8ebfab", // Muted teal
+                        "verdant-end": "#f3eecf", // Soft cream/yellowish
+                        "pearl": "#FFF5F5", // Warm white with subtle pink
+                        "pearl-dark": "#F5E6E6", // Slightly darker pearl for borders
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    animation: {
+                        'ink-bleed': 'ink-bleed 3s ease-out forwards',
+                        'aurora': 'aurora 15s ease infinite alternate',
+                    },
+                    keyframes: {
+                        'ink-bleed': {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        'aurora': {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' }
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        .paper-grain {
+            background-color: #FFFAF0;
+            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuC7qS9HSUrC4oR0jVuRwQD-KftZQ0tgokLJ6wMwRFqPkA9gaEuxZp9lWU5Ke4BdZBKOgB2X-flpcRcVQ4_FL2vyx_gqgA8vxQ4owLmtLJydiwQYzwjhZ49oCD2bBHPeW5v9Xdptkq2VkNmGMm4HBaX6YwvwOPK6dRaKO9RFbkMwtK0pT2DGRuAk6_vwCdp60qdRpbAj8YwuWWIsd3u7gT3oH2plP7P822Tvgspp81qrMxL0ZGIkZ_ff07L3Gpbgj4h2TCUVV89pXhg);
+        }
+        .drafting-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, #e5e0d8 1px, transparent 1px), linear-gradient(to bottom, #e5e0d8 1px, transparent 1px);
+        }
+        .hero-pattern {
+            background-color: #FFFAF0;background-image: 
+                radial-gradient(circle at 100% 100%, #C5A059 0, transparent 10%),radial-gradient(circle at 0% 0%, #C5A059 0, transparent 10%);
+        }.ink-edge {
+             mask-image: radial-gradient(circle, black 60%, transparent 100%);
+             -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);
+        }
+        .glass-dark {
+            background: rgba(45, 36, 30, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .verdant-gradient {
+            background: linear-gradient(135deg, #dcebd5 0%, #a8cabb 35%, #7aa89e 65%, #f3eecf 100%);
+            background-size: 200% 200%;
+            animation: aurora 15s ease infinite alternate;
+        }
+    </style>
+</head>
+
+<body class="font-display text-espresso bg-background-light overflow-x-hidden">
+    <nav
+        class="fixed top-0 w-full h-24 bg-background-light/95 backdrop-blur-md border-b border-gold/30 z-50 px-6 md:px-12 flex items-center justify-between transition-all duration-300 shadow-sm">
+        <div class="flex items-center gap-4">
+            <div
+                class="size-12 bg-espresso rounded-full flex items-center justify-center text-gold shadow-lg border border-gold/50">
+                <span class="material-symbols-outlined text-2xl">psychology</span>
+            </div>
+            <div class="flex flex-col">
+                <h1 class="text-espresso text-2xl font-bold tracking-wide font-serif">AnyMaps</h1>
+                <span class="text-[10px] text-gold-dark uppercase tracking-[0.2em] font-medium">The Digital
+                    Atelier</span>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center gap-10 text-espresso text-sm font-medium">
+            <a class="flex items-center gap-2 hover:text-gold-dark transition-colors group" href="#">
+                <span
+                    class="material-symbols-outlined text-gold group-hover:scale-110 transition-transform text-lg">explore</span>
+                <span>Showcase</span>
+            </a>
+            <a class="flex items-center gap-2 hover:text-gold-dark transition-colors group" href="#">
+                <span
+                    class="material-symbols-outlined text-gold group-hover:scale-110 transition-transform text-lg">edit_note</span>
+                <span>Cartography Tools</span>
+            </a>
+            <a class="flex items-center gap-2 hover:text-gold-dark transition-colors group" href="#">
+                <span
+                    class="material-symbols-outlined text-gold group-hover:scale-110 transition-transform text-lg">diamond</span>
+                <span>Pricing</span>
+            </a>
+            <button
+                class="bg-espresso text-gold px-6 py-2.5 rounded-lg font-bold font-serif tracking-wide hover:bg-espresso-light transition-all shadow-[0_4px_15px_rgba(45,36,30,0.3)] border border-gold/30">
+                Sign In
+            </button>
+        </div>
+    </nav>
+    <main class="pt-24">
+        <section
+            class="flex flex-col items-center justify-start pt-16 pb-20 px-6 relative overflow-hidden bg-background-light">
+            <div class="absolute inset-0 pointer-events-none z-0">
+                <div
+                    class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] bg-gold/10 blur-[120px] rounded-full animate-ink-bleed">
+                </div>
+                <div class="absolute top-[40%] -right-[10%] w-[40%] h-[40%] bg-gold/5 blur-[100px] rounded-full animate-ink-bleed"
+                    style="animation-delay: 1s"></div>
+            </div>
+            <div class="max-w-6xl w-full flex flex-col items-center gap-12 z-10">
+                <div class="text-center max-w-4xl mx-auto space-y-8">
+                    <div
+                        class="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-gold/40 bg-white/40 backdrop-blur-sm shadow-sm">
+                        <span class="size-2 rounded-full bg-gold animate-pulse shadow-[0_0_8px_#C5A059]"></span>
+                        <span class="text-espresso text-xs font-bold uppercase tracking-[0.25em]">The Guild's
+                            Register</span>
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-serif text-espresso leading-[1.05] drop-shadow-sm">
+                        Architect the <br class="hidden md:block" />
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-br from-gold via-gold-dark to-espresso italic pr-2">Uncharted.</span>
+                    </h1>
+                    <p class="text-espresso/70 text-lg md:text-xl leading-relaxed font-light max-w-2xl mx-auto">
+                        Transform complex thoughts into interactive, masterfully crafted mental maps. A guided discovery
+                        engine for the modern polymath.
+                    </p>
+                </div>
+                <div class="w-full relative group perspective-1000 mt-6 mb-8">
+                    <div
+                        class="absolute -inset-2 bg-gradient-to-b from-gold/30 via-transparent to-transparent blur-3xl opacity-30">
+                    </div>
+                    <div
+                        class="relative bg-[#FFFAF0] rounded-[2px] shadow-[0_30px_60px_-15px_rgba(45,36,30,0.15)] border-[8px] border-white ring-1 ring-gold/20 overflow-hidden transform transition-all duration-700 max-w-5xl mx-auto aspect-[16/10] md:aspect-[2/1] min-h-[450px]">
+                        <div class="absolute inset-2 border border-gold/20 pointer-events-none z-10"></div>
+                        <div class="drafting-grid w-full h-full relative">
+                            <div
+                                class="absolute top-0 left-0 w-full p-8 flex justify-between items-start opacity-70 z-20">
+                                <span class="material-symbols-outlined text-espresso text-4xl">architecture</span>
+                                <div
+                                    class="text-[10px] text-espresso font-mono uppercase tracking-widest border border-espresso/20 px-3 py-1.5 bg-white shadow-sm">
+                                    Fig. 1: Medici Power Dynamics
+                                </div>
+                            </div>
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-80 md:w-96">
+                                <div
+                                    class="bg-white p-2 shadow-[0_20px_50px_rgba(45,36,30,0.15)] border border-gray-100 transform transition-transform duration-500 hover:scale-[1.02]">
+                                    <div class="h-44 bg-cover bg-center relative overflow-hidden sepia-[0.2]"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJYXCVTkLhD-EiPXIsLBoLxtmdGYMz7E4q8WxhaZF9xP1c0cA4OutJpT07ReJxWbxLrGsnGGDI1GkBcomY64-roNge4yka2_VgPfJG9GT96868Dk_9_yGbvYhVZNrXMbx_rZ6Lo5yGlUuz3mKBT537jubQYhSjRjrSExcXNw289o5Gzp5d2Fl-ilwkfnyHv_ZemsmZsjM0_qLIdGOUuZ8Ud-bI0iC7aDnLiQ7MrS8M2BI3JaIXUQy6vaDUCMSKIl6aj5f0E2luPZI');">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-espresso/90 to-transparent">
+                                        </div>
+                                        <div class="absolute bottom-0 left-0 w-full p-5 text-center">
+                                            <h3 class="text-2xl font-bold text-white font-serif tracking-wide">The
+                                                Medici Family</h3>
+                                            <div class="w-12 h-[1px] bg-gold mx-auto mt-2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="p-6 bg-white text-center">
+                                        <p
+                                            class="text-xs text-espresso/70 font-medium leading-relaxed italic font-serif">
+                                            "Banking dynasty and political powerhouse that shaped the Florentine
+                                            Renaissance."
+                                        </p>
+                                        <div class="mt-4 flex justify-center gap-2">
+                                            <span
+                                                class="px-3 py-1 bg-[#F5F1E8] text-espresso/80 text-[10px] font-bold uppercase tracking-wider">1397–1494</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-30">
+                                <defs>
+                                    <marker id="arrowhead" markerHeight="7" markerWidth="10" orient="auto" refX="9"
+                                        refY="3.5">
+                                        <polygon fill="#2D241E" points="0 0, 10 3.5, 0 7"></polygon>
+                                    </marker>
+                                </defs>
+                                <path d="M 50% 50% C 35% 50%, 25% 65%, 20% 75%" fill="none" stroke="#2D241E"
+                                    stroke-dasharray="2 4" stroke-width="1"></path>
+                                <path d="M 50% 50% C 65% 50%, 75% 35%, 80% 25%" fill="none" stroke="#2D241E"
+                                    stroke-dasharray="2 4" stroke-width="1"></path>
+                            </svg>
+                            <div
+                                class="absolute bottom-[10%] left-[5%] md:left-[10%] bg-white p-1 shadow-lg border border-gray-100 w-64 transform transition hover:-translate-y-1 hover:shadow-xl group/node">
+                                <div class="flex items-start gap-4 p-3 bg-[#FFFAF0]/50 border border-gold/10">
+                                    <div class="size-12 bg-slate-100 bg-cover shrink-0 grayscale group-hover/node:grayscale-0 transition-all duration-500"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCqfdWSuk_yAta7H0D97DH6CrtIR_b9pukEvc8XFQfqgb9IRHBOd3Qg_oVhyi7eEWX74MNrctFXPfpJVHXHr3tuZYwZqiXT28XQUCPD4Gkl7biuhaQtAhnoUadZaAZFSvK_xyBBqOJHoNdeOvRYRx1fwgm_VO9cOIFickbl3rCKTkzJH7aHdbUL6ODCCZ-16QgBCigcaYWeYI2XCvXuniRFXUQTprGtYRII0ARxkxF-uKY4gDpmgHhn2g1tWybhEf-DdVfW7dsGe48');">
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-espresso text-xs font-serif uppercase tracking-tight">
+                                            Political Influence</h4>
+                                        <p class="text-[10px] text-espresso/60 leading-snug mt-1 italic">Control over
+                                            the Signoria.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="absolute top-[15%] right-[5%] md:right-[10%] bg-white p-1 shadow-lg border border-gray-100 w-56 text-right transform transition hover:-translate-y-1 hover:shadow-xl group/node">
+                                <div class="p-3 bg-[#FFFAF0]/50 border border-gold/10">
+                                    <div class="flex items-center justify-end gap-2 mb-1">
+                                        <h4 class="font-bold text-espresso text-xs font-serif uppercase tracking-tight">
+                                            Banking Network</h4>
+                                        <span class="material-symbols-outlined text-gold text-sm">account_balance</span>
+                                    </div>
+                                    <p class="text-[10px] text-espresso/60 leading-snug italic">Branches in Geneva &amp;
+                                        London.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 mb-2 flex justify-center">
+                    <button
+                        class="relative group flex items-center justify-center gap-3 px-8 py-3.5 rounded-xl bg-pearl text-espresso-light border border-gold/30 shadow-[6px_6px_16px_rgba(62,50,40,0.08),-6px_-6px_16px_rgba(255,255,255,0.8)] hover:shadow-[inset_4px_4px_10px_rgba(62,50,40,0.05),inset_-4px_-4px_10px_rgba(255,255,255,0.9),inset_0_0_20px_rgba(197,160,89,0.1)] active:shadow-[inset_4px_4px_12px_rgba(62,50,40,0.08),inset_-4px_-4px_12px_rgba(255,255,255,0.9)] transition-all duration-300 ease-out transform hover:scale-[0.99] overflow-hidden">
+                        <span
+                            class="material-symbols-outlined text-gold text-lg transition-transform group-hover:rotate-12 duration-300">ink_pen</span>
+                        <span
+                            class="font-display text-sm font-bold uppercase tracking-widest text-espresso-light group-hover:text-espresso transition-colors">
+                            Get started for free
+                        </span>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]">
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section
+            class="verdant-gradient text-espresso py-32 px-6 border-t border-gold/30 shadow-[inset_0_10px_30px_rgba(0,0,0,0.1)] relative overflow-hidden">
+            <div
+                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay">
+            </div>
+            <div
+                class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold to-transparent opacity-50">
+            </div>
+            <svg class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-25" height="100%" width="100%">
+                <defs>
+                    <pattern height="40" id="blueprintGrid" patternUnits="userSpaceOnUse" width="40">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2D241E" stroke-width="0.5"></path>
+                    </pattern>
+                </defs>
+                <rect fill="url(#blueprintGrid)" height="100%" width="100%"></rect>
+                <line stroke="#2D241E" stroke-dasharray="5,5" stroke-width="1" x1="0" x2="100%" y1="50%" y2="50%">
+                </line>
+                <line stroke="#2D241E" stroke-dasharray="5,5" stroke-width="1" x1="50%" x2="50%" y1="0" y2="100%">
+                </line>
+                <circle cx="50%" cy="50%" fill="none" r="280" stroke="#2D241E" stroke-dasharray="4,8"
+                    stroke-width="0.5"></circle>
+                <circle cx="50%" cy="50%" fill="none" r="350" stroke="#2D241E" stroke-opacity="0.5" stroke-width="0.5">
+                </circle>
+                <line stroke="#2D241E" stroke-width="1" x1="45%" x2="45%" y1="48%" y2="52%"></line>
+                <line stroke="#2D241E" stroke-width="1" x1="55%" x2="55%" y1="48%" y2="52%"></line>
+                <text class="text-[10px] font-mono fill-espresso font-bold" x="48.5%" y="51%">WIDTH: 1000u</text>
+                <text class="text-[10px] font-mono fill-espresso font-bold" style="writing-mode: tb;" x="95%"
+                    y="45%">ELEVATION A</text>
+            </svg>
+            <div class="max-w-4xl mx-auto flex flex-col items-center gap-8 relative z-10">
+                <div class="flex flex-col items-center gap-3">
+                    <div
+                        class="size-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm border border-gold/40 mb-2 ring-4 ring-white/10">
+                        <span class="material-symbols-outlined text-gold-dark text-xl">architecture</span>
+                    </div>
+                    <h2
+                        class="text-4xl md:text-5xl font-serif text-espresso text-center italic leading-tight drop-shadow-sm">
+                        The Atelier Input</h2>
+                    <p class="text-xs font-bold uppercase tracking-[0.25em] text-espresso/70 font-display">WHERE WILL
+                        YOUR CURIOSITY LEAD TODAY?</p>
+                </div>
+                <div class="w-full relative group max-w-3xl mt-6">
+                    <div
+                        class="relative p-[4px] rounded-xl shadow-[0_25px_60px_-10px_rgba(0,0,0,0.1)] bg-[linear-gradient(145deg,#F5E6E6_0%,#FFF5F5_45%,#F5E6E6_100%)]">
+                        <div
+                            class="bg-pearl p-2.5 rounded-[9px] shadow-[inset_0_1px_4px_rgba(0,0,0,0.05)] border border-pearl-dark relative overflow-hidden">
+                            <div
+                                class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/leather.png')]">
+                            </div>
+                            <div
+                                class="bg-[#FFFBF2] rounded-md shadow-inner flex items-center gap-3 p-1.5 relative z-10 border border-[#e8dfd8]">
+                                <div
+                                    class="pl-3 hidden md:flex items-center justify-center border-r border-espresso/10 pr-3">
+                                    <span class="material-symbols-outlined text-espresso/50 text-2xl">history_edu</span>
+                                </div>
+                                <input
+                                    class="flex-1 bg-transparent border-none text-espresso placeholder-espresso/40 text-lg md:text-xl focus:ring-0 focus:outline-none h-14 w-full font-serif italic"
+                                    placeholder="Start your schematic: e.g. 'Structure of Gothic Architecture'..."
+                                    type="text" />
+                                <button
+                                    class="bg-espresso hover:bg-espresso-light text-gold font-bold py-3 px-6 rounded-md transition-all flex items-center gap-2 shadow-lg shrink-0 border border-gold/20 group/btn overflow-hidden relative">
+                                    <span class="relative z-10">Construct</span>
+                                    <span
+                                        class="material-symbols-outlined text-sm font-bold relative z-10 group-hover/btn:rotate-90 transition-transform">architecture</span>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite]">
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full mt-8">
+                        <button
+                            class="relative group flex flex-col items-center justify-center h-32 md:h-40 rounded-2xl bg-pearl border border-gold/20 shadow-[10px_10px_20px_rgba(62,50,40,0.08),-10px_-10px_20px_rgba(255,255,255,0.9)] hover:shadow-[inset_6px_6px_14px_rgba(62,50,40,0.06),inset_-6px_-6px_14px_rgba(255,255,255,1),inset_0_0_30px_rgba(197,160,89,0.1)] hover:scale-[0.98] transition-all duration-300 ease-out">
+                            <span
+                                class="material-symbols-outlined text-gold-dark text-4xl mb-3 font-[100] group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">history_edu</span>
+                            <span
+                                class="text-[11px] font-bold uppercase tracking-[0.2em] text-espresso/80 font-display group-hover:text-espresso transition-colors">History</span>
+                            <div
+                                class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold/10 pointer-events-none transition-colors duration-300">
+                            </div>
+                        </button>
+                        <button
+                            class="relative group flex flex-col items-center justify-center h-32 md:h-40 rounded-2xl bg-pearl border border-gold/20 shadow-[10px_10px_20px_rgba(62,50,40,0.08),-10px_-10px_20px_rgba(255,255,255,0.9)] hover:shadow-[inset_6px_6px_14px_rgba(62,50,40,0.06),inset_-6px_-6px_14px_rgba(255,255,255,1),inset_0_0_30px_rgba(197,160,89,0.1)] hover:scale-[0.98] transition-all duration-300 ease-out">
+                            <span
+                                class="material-symbols-outlined text-gold-dark text-4xl mb-3 font-[100] group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">architecture</span>
+                            <span
+                                class="text-[11px] font-bold uppercase tracking-[0.2em] text-espresso/80 font-display group-hover:text-espresso transition-colors">Architecture</span>
+                            <div
+                                class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold/10 pointer-events-none transition-colors duration-300">
+                            </div>
+                        </button>
+                        <button
+                            class="relative group flex flex-col items-center justify-center h-32 md:h-40 rounded-2xl bg-pearl border border-gold/20 shadow-[10px_10px_20px_rgba(62,50,40,0.08),-10px_-10px_20px_rgba(255,255,255,0.9)] hover:shadow-[inset_6px_6px_14px_rgba(62,50,40,0.06),inset_-6px_-6px_14px_rgba(255,255,255,1),inset_0_0_30px_rgba(197,160,89,0.1)] hover:scale-[0.98] transition-all duration-300 ease-out">
+                            <span
+                                class="material-symbols-outlined text-gold-dark text-4xl mb-3 font-[100] group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">psychology</span>
+                            <span
+                                class="text-[11px] font-bold uppercase tracking-[0.2em] text-espresso/80 font-display group-hover:text-espresso transition-colors">Philosophy</span>
+                            <div
+                                class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold/10 pointer-events-none transition-colors duration-300">
+                            </div>
+                        </button>
+                        <button
+                            class="relative group flex flex-col items-center justify-center h-32 md:h-40 rounded-2xl bg-pearl border border-gold/20 shadow-[10px_10px_20px_rgba(62,50,40,0.08),-10px_-10px_20px_rgba(255,255,255,0.9)] hover:shadow-[inset_6px_6px_14px_rgba(62,50,40,0.06),inset_-6px_-6px_14px_rgba(255,255,255,1),inset_0_0_30px_rgba(197,160,89,0.1)] hover:scale-[0.98] transition-all duration-300 ease-out">
+                            <span
+                                class="material-symbols-outlined text-gold-dark text-4xl mb-3 font-[100] group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">science</span>
+                            <span
+                                class="text-[11px] font-bold uppercase tracking-[0.2em] text-espresso/80 font-display group-hover:text-espresso transition-colors">Science</span>
+                            <div
+                                class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold/10 pointer-events-none transition-colors duration-300">
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-gold/10 blur-[80px] rounded-full pointer-events-none">
+            </div>
+            <div class="absolute -top-20 -right-20 w-80 h-80 bg-white/20 blur-[90px] rounded-full pointer-events-none">
+            </div>
+        </section>
+        <section class="py-32 bg-pearl text-espresso px-6 relative overflow-hidden">
+            <div
+                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]">
+            </div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div
+                    class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 border-b border-gold/20 pb-8">
+                    <div>
+                        <h3 class="text-4xl md:text-5xl font-serif text-espresso mb-3">The Gallery of Thought</h3>
+                        <p class="text-espresso/60 font-display font-light text-lg">Masterpieces of cognitive
+                            architecture.</p>
+                    </div>
+                    <button
+                        class="text-espresso font-bold font-display text-sm uppercase tracking-widest flex items-center gap-2 hover:text-gold-dark transition-colors group border-b border-transparent hover:border-gold pb-1">
+                        View Full Gallery
+                        <span
+                            class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">open_in_new</span>
+                    </button>
+                </div>
+                <div class="flex justify-center md:justify-start mb-24">
+                    <div
+                        class="flex items-center gap-2 bg-pearl/60 backdrop-blur-md p-2 rounded-full border border-pearl-dark shadow-sm">
+                        <span
+                            class="text-[10px] font-bold uppercase tracking-wider text-espresso/50 px-3 font-display">Filter
+                            By:</span>
+                        <button
+                            class="px-6 py-2 rounded-full bg-pearl text-espresso text-xs font-bold uppercase tracking-wide border border-gold/20 shadow-[0_2px_8px_rgba(45,36,30,0.05)] transition-all font-display hover:shadow-md">
+                            All
+                        </button>
+                        <button
+                            class="px-6 py-2 rounded-full text-espresso/60 hover:text-espresso hover:bg-pearl/50 text-xs font-bold uppercase tracking-wide border border-transparent transition-all font-display hover:border-pearl-dark">
+                            History
+                        </button>
+                        <button
+                            class="px-6 py-2 rounded-full text-espresso/60 hover:text-espresso hover:bg-pearl/50 text-xs font-bold uppercase tracking-wide border border-transparent transition-all font-display hover:border-pearl-dark">
+                            Science
+                        </button>
+                        <button
+                            class="px-6 py-2 rounded-full text-espresso/60 hover:text-espresso hover:bg-pearl/50 text-xs font-bold uppercase tracking-wide border border-transparent transition-all font-display hover:border-pearl-dark">
+                            Philosophy
+                        </button>
+                        <button
+                            class="px-6 py-2 rounded-full text-espresso/60 hover:text-espresso hover:bg-pearl/50 text-xs font-bold uppercase tracking-wide border border-transparent transition-all font-display hover:border-pearl-dark">
+                            Art
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                    <div class="group relative h-[550px] w-full bg-espresso rounded-lg overflow-hidden shadow-2xl">
+                        <img alt="Silk Road"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtT8udp-Rz5OuzsrIO0rzNEHjHp7JehkdmQxZOk5016XwCbrA62L6paXQyaXv-U2LXJ3YHi78fRVaRnqL57PPoXEeH8CtI0-VeaOwzV9K8mxkhkirSkltX6SgcNau0PZuVKOgt_oaYhhKd79uM_za8o82afVvStk8KFC4uUa1LJYeFaawE734Wm4lJ6yLFGI_bP4CEN5-xXSIafb4_FFy9J-zEJyuIXnZnqAHFpP2RN8i8_c3Ialk-nvqoIaNVBk-T7o0a3ns00YA" />
+                        <div
+                            class="absolute inset-x-0 bottom-0 bg-white/10 backdrop-blur-lg border-t border-white/20 p-6 transition-all duration-700 ease-in-out translate-y-0 group-hover:translate-y-full">
+                            <div class="flex flex-col gap-1">
+                                <span
+                                    class="text-[10px] font-display font-bold uppercase tracking-widest text-gold mb-1">Fig.
+                                    I</span>
+                                <h4 class="font-display font-semibold text-xl text-white tracking-wide">Silk Road
+                                    Logistics</h4>
+                                <p class="font-display text-sm text-white/80 font-light leading-relaxed mt-2">
+                                    A temporal map of trade routes from 200 BCE to 1450 CE.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="group relative h-[550px] w-full bg-espresso rounded-lg overflow-hidden shadow-2xl md:mt-16">
+                        <img alt="Cognitive Bias"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfY_ld6iZX1ekOzL7wuaKsdOcx4nsVpXLVTcBhHLfgr1j1Wi5tAqECVESRuqc9VO_kaJT0wbgVmesyU4EEfjG56qfRy5JsgSnpyiPwX1eALwQGfILkSaSveB1MPzpoJ3r_sFD-zffD7--w-jHaAoen2ZvZ_872cfzHrMg9W1iOs_jFqlbxQeCf8ux7nCR8XRkFRsyDbXPmDFpQzOH6ZI-CLBaeJilw7rT2vkX-BLbJ-AdYSOTs08DTqvfzWwcPAQRmOKZavZBUmYs" />
+                        <div
+                            class="absolute inset-x-0 bottom-0 bg-white/10 backdrop-blur-lg border-t border-white/20 p-6 transition-all duration-700 ease-in-out translate-y-0 group-hover:translate-y-full">
+                            <div class="flex flex-col gap-1">
+                                <span
+                                    class="text-[10px] font-display font-bold uppercase tracking-widest text-gold mb-1">Fig.
+                                    II</span>
+                                <h4 class="font-display font-semibold text-xl text-white tracking-wide">Cognitive Bias
+                                    Web</h4>
+                                <p class="font-display text-sm text-white/80 font-light leading-relaxed mt-2">
+                                    Mapping 188 known cognitive biases and their interactions.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="group relative h-[550px] w-full bg-espresso rounded-lg overflow-hidden shadow-2xl md:-mt-8">
+                        <img alt="Quantum Lineage"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_GnIrO74GfYC588_xgN0AYgJqLTsOyzTgIJiLeztnL8WQ4p_fcn2K-2HvvXkXTxG9smLZrkmkuGmWcTw7d_LzPVJ5SO0yD_QmJxHoEp1F6coX-4C71C99lm0nQEPTWUE4TnLbPyoQNBjCclecz29ogb7Jjc0JNno0c1Ny1GtAv8n1miPLVVQ0NwazbbyvYWyXMDTModbukrb66ar501KZfNspLlyLDIQNW10IAOehXtbMIVbIcWARkKibEQ6mSIp8xLsaMDGurLo" />
+                        <div
+                            class="absolute inset-x-0 bottom-0 bg-white/10 backdrop-blur-lg border-t border-white/20 p-6 transition-all duration-700 ease-in-out translate-y-0 group-hover:translate-y-full">
+                            <div class="flex flex-col gap-1">
+                                <span
+                                    class="text-[10px] font-display font-bold uppercase tracking-widest text-gold mb-1">Fig.
+                                    III</span>
+                                <h4 class="font-display font-semibold text-xl text-white tracking-wide">Quantum Lineage
+                                </h4>
+                                <p class="font-display text-sm text-white/80 font-light leading-relaxed mt-2">
+                                    Evolution of modern physics from Planck to quantum computing.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-espresso py-12 px-6 border-t border-gold/20 text-parchment/60 text-sm relative">
+        <div
+            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-30">
+        </div>
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-3">
+                <div class="size-8 bg-gold/10 rounded-full flex items-center justify-center border border-gold/20">
+                    <span class="material-symbols-outlined text-gold text-sm">psychology</span>
+                </div>
+                <span class="font-serif text-parchment tracking-wide">AnyMaps Atelier © 2024</span>
+            </div>
+            <div class="flex gap-8 font-medium">
+                <a class="hover:text-gold transition-colors" href="#">Privacy</a>
+                <a class="hover:text-gold transition-colors" href="#">Terms</a>
+                <a class="hover:text-gold transition-colors" href="#">Documentation</a>
+                <a class="hover:text-gold transition-colors" href="#">Contact</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <div
+                    class="size-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:border-gold hover:text-espresso cursor-pointer transition-all duration-300">
+                    <span class="material-symbols-outlined text-sm">share</span>
+                </div>
+                <div
+                    class="size-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:border-gold hover:text-espresso cursor-pointer transition-all duration-300">
+                    <span class="material-symbols-outlined text-sm">mail</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

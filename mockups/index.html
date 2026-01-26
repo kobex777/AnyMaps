@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AnyMaps - AI Mental Cartography</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Inter:wght@100..900&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#003366", // Medici Blue
+                        "background-light": "#f9f7f2", // Ivory Parchment
+                        "background-dark": "#0f1923",
+                        "espresso": "#2D241E", // Deep Espresso
+                        "espresso-light": "#3E3228", // Lighter Espresso for UI elements
+                        "gold": "#C5A059", // Venetian Gold approximation
+                        "parchment": "#DBCBB6", // Text color for dark backgrounds
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "serif": ["Playfair Display", "serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        .paper-grain {
+            background-color: #f9f7f2;
+            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuC7qS9HSUrC4oR0jVuRwQD-KftZQ0tgokLJ6wMwRFqPkA9gaEuxZp9lWU5Ke4BdZBKOgB2X-flpcRcVQ4_FL2vyx_gqgA8vxQ4owLmtLJydiwQYzwjhZ49oCD2bBHPeW5v9Xdptkq2VkNmGMm4HBaX6YwvwOPK6dRaKO9RFbkMwtK0pT2DGRuAk6_vwCdp60qdRpbAj8YwuWWIsd3u7gT3oH2plP7P822Tvgspp81qrMxL0ZGIkZ_ff07L3Gpbgj4h2TCUVV89pXhg);
+        }
+        .drafting-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, #e5e0d8 1px, transparent 1px), linear-gradient(to bottom, #e5e0d8 1px, transparent 1px);
+        }
+        .hero-pattern {
+            background-color: #2D241E;
+            background-image: radial-gradient(circle at 2px 2px, #3E3228 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+
+<body class="font-display text-slate-800 bg-background-light overflow-x-hidden">
+    <nav
+        class="fixed top-0 w-full h-20 bg-espresso border-b border-[#4A3B32] z-50 px-6 md:px-12 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="size-10 bg-gold rounded-full flex items-center justify-center text-espresso shadow-lg">
+                <span class="material-symbols-outlined">psychology</span>
+            </div>
+            <div class="flex flex-col">
+                <h1 class="text-white text-xl font-bold tracking-wide font-serif">AnyMaps</h1>
+                <span class="text-[10px] text-gold uppercase tracking-widest opacity-80">The Digital Atelier</span>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center gap-8 text-parchment text-sm font-medium">
+            <a class="hover:text-gold transition-colors" href="#">Showcase</a>
+            <a class="hover:text-gold transition-colors" href="#">Cartography Tools</a>
+            <a class="hover:text-gold transition-colors" href="#">Pricing</a>
+            <button onclick="window.location.href='dashboard.html'"
+                class="bg-gold text-espresso px-5 py-2 rounded-lg font-bold hover:bg-white transition-all">Sign
+                In</button>
+        </div>
+    </nav>
+    <main class="pt-20">
+        <section class="hero-pattern min-h-[85vh] flex flex-col items-center justify-center relative px-6 py-12">
+            <div class="max-w-6xl w-full grid lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1 relative group">
+                    <div
+                        class="absolute -inset-4 bg-gold/10 blur-2xl rounded-full opacity-50 group-hover:opacity-100 transition duration-700">
+                    </div>
+                    <div
+                        class="relative bg-white p-2 rounded-xl shadow-2xl border border-gold/30 transform -rotate-2 group-hover:rotate-0 transition-transform duration-500">
+                        <div
+                            class="drafting-grid rounded-lg p-8 min-h-[400px] flex items-center justify-center relative overflow-hidden">
+                            <div
+                                class="bg-white p-1 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-primary/20 w-72 z-10">
+                                <div class="h-24 rounded-lg bg-cover bg-center relative overflow-hidden"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJYXCVTkLhD-EiPXIsLBoLxtmdGYMz7E4q8WxhaZF9xP1c0cA4OutJpT07ReJxWbxLrGsnGGDI1GkBcomY64-roNge4yka2_VgPfJG9GT96868Dk_9_yGbvYhVZNrXMbx_rZ6Lo5yGlUuz3mKBT537jubQYhSjRjrSExcXNw289o5Gzp5d2Fl-ilwkfnyHv_ZemsmZsjM0_qLIdGOUuZ8Ud-bI0iC7aDnLiQ7MrS8M2BI3JaIXUQy6vaDUCMSKIl6aj5f0E2luPZI');">
+                                    <div class="absolute inset-0 bg-primary/10"></div>
+                                </div>
+                                <div class="p-3">
+                                    <h3 class="text-base font-bold text-espresso leading-tight font-serif mb-1">The
+                                        Medici Family</h3>
+                                    <p class="text-[10px] text-slate-600 line-clamp-2">Banking dynasty that shaped the
+                                        Florentine Renaissance.</p>
+                                </div>
+                            </div>
+                            <div
+                                class="absolute top-12 right-8 bg-white p-3 rounded-lg shadow-lg border-l-4 border-gold w-48 scale-90 opacity-80">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="material-symbols-outlined text-primary text-sm">account_balance</span>
+                                    <h4 class="font-bold text-espresso text-[11px] font-serif uppercase tracking-tight">
+                                        Banking Network</h4>
+                                </div>
+                                <div class="h-1 w-full bg-slate-100 rounded"></div>
+                            </div>
+                            <div
+                                class="absolute bottom-16 left-8 bg-white p-3 rounded-lg shadow-lg border border-slate-200 w-48 flex items-center gap-3 scale-90 opacity-80">
+                                <div class="size-8 bg-slate-100 rounded-md bg-cover bg-center"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCqfdWSuk_yAta7H0D97DH6CrtIR_b9pukEvc8XFQfqgb9IRHBOd3Qg_oVhyi7eEWX74MNrctFXPfpJVHXHr3tuZYwZqiXT28XQUCPD4Gkl7biuhaQtAhnoUadZaAZFSvK_xyBBqOJHoNdeOvRYRx1fwgm_VO9cOIFickbl3rCKTkzJH7aHdbUL6ODCCZ-16QgBCigcaYWeYI2XCvXuniRFXUQTprGtYRII0ARxkxF-uKY4gDpmgHhn2g1tWybhEf-DdVfW7dsGe48');">
+                                </div>
+                                <h4 class="font-bold text-espresso text-[11px] font-serif uppercase tracking-tight">
+                                    Political Power</h4>
+                            </div>
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-30">
+                                <line stroke="#003366" stroke-dasharray="4" stroke-width="2" x1="50%" x2="80%" y1="50%"
+                                    y2="30%"></line>
+                                <line stroke="#003366" stroke-dasharray="4" stroke-width="2" x1="50%" x2="25%" y1="50%"
+                                    y2="75%"></line>
+                            </svg>
+                            <div
+                                class="absolute bottom-4 right-4 text-[10px] text-primary/40 font-bold uppercase tracking-widest italic">
+                                Sample: "The Rise of Florence"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 text-center lg:text-left">
+                    <span
+                        class="inline-block py-1 px-3 bg-gold/20 text-gold rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+                        Renaissance Meets Intelligence
+                    </span>
+                    <h2 class="text-4xl md:text-6xl font-serif text-white leading-tight mb-6">
+                        Chart the Uncharted <br />
+                        <span class="text-gold italic">Territories of Mind.</span>
+                    </h2>
+                    <p class="text-parchment text-lg md:text-xl leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
+                        Transform complex thoughts, dense literature, or vast datasets into interactive, masterfully
+                        crafted mental maps. Guided by AI, built for scholars and visionaries.
+                    </p>
+                    <div class="flex flex-col items-center lg:items-start gap-6">
+                        <button onclick="window.location.href='dashboard.html'"
+                            class="group relative px-8 py-4 bg-gold text-espresso font-bold text-lg rounded-xl overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(197,160,89,0.3)]">
+                            <span class="relative z-10 flex items-center gap-3">
+                                Start Your Map
+                                <span
+                                    class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                            </span>
+                        </button>
+                        <p class="text-parchment/40 text-xs uppercase tracking-widest">Free to start • No credit card
+                            required</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="bg-background-light py-24 px-6 paper-grain">
+            <div class="max-w-3xl mx-auto text-center">
+                <h3 class="text-3xl font-serif text-espresso mb-4">Step into the Atelier</h3>
+                <p class="text-slate-600 mb-12">Describe your concept in plain language, and our AI cartographer will
+                    begin drafting your masterpiece in real-time.</p>
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-1 bg-gradient-to-r from-gold/50 to-primary/50 rounded-2xl blur opacity-25 group-focus-within:opacity-100 transition duration-500">
+                    </div>
+                    <div
+                        class="relative flex flex-col md:flex-row items-center bg-espresso rounded-2xl border border-gold/30 shadow-2xl overflow-hidden p-2">
+                        <div class="flex-1 w-full">
+                            <input
+                                class="w-full px-6 py-5 text-lg text-parchment placeholder:text-parchment/30 focus:outline-none border-none bg-transparent"
+                                placeholder="e.g., Map the industrial revolution's impact on romantic literature..."
+                                type="text" />
+                        </div>
+                        <button onclick="window.location.href='dashboard.html'"
+                            class="w-full md:w-auto px-8 py-5 bg-gold text-espresso font-bold flex items-center justify-center gap-2 hover:bg-white transition-colors rounded-xl">
+                            <span>Begin Drafting</span>
+                            <span class="material-symbols-outlined">ink_pen</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div
+                        class="p-4 bg-white/50 border border-slate-200 rounded-xl hover:border-gold/50 transition-colors cursor-pointer group">
+                        <span class="material-symbols-outlined text-gold mb-2">history_edu</span>
+                        <p class="text-xs font-bold text-espresso uppercase tracking-tighter">History</p>
+                    </div>
+                    <div
+                        class="p-4 bg-white/50 border border-slate-200 rounded-xl hover:border-gold/50 transition-colors cursor-pointer group">
+                        <span class="material-symbols-outlined text-gold mb-2">architecture</span>
+                        <p class="text-xs font-bold text-espresso uppercase tracking-tighter">Architecture</p>
+                    </div>
+                    <div
+                        class="p-4 bg-white/50 border border-slate-200 rounded-xl hover:border-gold/50 transition-colors cursor-pointer group">
+                        <span class="material-symbols-outlined text-gold mb-2">psychology</span>
+                        <p class="text-xs font-bold text-espresso uppercase tracking-tighter">Philosophy</p>
+                    </div>
+                    <div
+                        class="p-4 bg-white/50 border border-slate-200 rounded-xl hover:border-gold/50 transition-colors cursor-pointer group">
+                        <span class="material-symbols-outlined text-gold mb-2">science</span>
+                        <p class="text-xs font-bold text-espresso uppercase tracking-tighter">Complexity</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-24 bg-espresso text-parchment px-6 border-t border-[#4A3B32]">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <div>
+                        <h3 class="text-3xl font-serif text-white mb-2">Explore the Archives</h3>
+                        <p class="text-parchment/60">Discover how others are mapping the world's most complex ideas.</p>
+                    </div>
+                    <button
+                        class="text-gold flex items-center gap-2 hover:underline decoration-gold/50 underline-offset-4">
+                        View Full Gallery
+                        <span class="material-symbols-outlined text-sm">open_in_new</span>
+                    </button>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="space-y-4">
+                        <div class="h-64 rounded-xl overflow-hidden border border-[#4A3B32] bg-cover bg-center grayscale hover:grayscale-0 transition duration-500"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAtT8udp-Rz5OuzsrIO0rzNEHjHp7JehkdmQxZOk5016XwCbrA62L6paXQyaXv-U2LXJ3YHi78fRVaRnqL57PPoXEeH8CtI0-VeaOwzV9K8mxkhkirSkltX6SgcNau0PZuVKOgt_oaYhhKd79uM_za8o82afVvStk8KFC4uUa1LJYeFaawE734Wm4lJ6yLFGI_bP4CEN5-xXSIafb4_FFy9J-zEJyuIXnZnqAHFpP2RN8i8_c3Ialk-nvqoIaNVBk-T7o0a3ns00YA');">
+                        </div>
+                        <h4 class="font-serif text-lg text-white">The Silk Road Logistics</h4>
+                        <p class="text-sm text-parchment/50">A temporal map of trade routes from 200 BCE to 1450 CE.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="h-64 rounded-xl overflow-hidden border border-[#4A3B32] bg-cover bg-center grayscale hover:grayscale-0 transition duration-500"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfY_ld6iZX1ekOzL7wuaKsdOcx4nsVpXLVTcBhHLfgr1j1Wi5tAqECVESRuqc9VO_kaJT0wbgVmesyU4EEfjG56qfRy5JsgSnpyiPwX1eALwQGfILkSaSveB1MPzpoJ3r_sFD-zffD7--w-jHaAoen2ZvZ_872cfzHrMg9W1iOs_jFqlbxQeCf8ux7nCR8XRkFRsyDbXPmDFpQzOH6ZI-CLBaeJilw7rT2vkX-BLbJ-AdYSOTs08DTqvfzWwcPAQRmOKZavZBUmYs');">
+                        </div>
+                        <h4 class="font-serif text-lg text-white">Cognitive Bias Web</h4>
+                        <p class="text-sm text-parchment/50">Mapping the 188 known cognitive biases and their
+                            interactions.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="h-64 rounded-xl overflow-hidden border border-[#4A3B32] bg-cover bg-center grayscale hover:grayscale-0 transition duration-500"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_GnIrO74GfYC588_xgN0AYgJqLTsOyzTgIJiLeztnL8WQ4p_fcn2K-2HvvXkXTxG9smLZrkmkuGmWcTw7d_LzPVJ5SO0yD_QmJxHoEp1F6coX-4C71C99lm0nQEPTWUE4TnLbPyoQNBjCclecz29ogb7Jjc0JNno0c1Ny1GtAv8n1miPLVVQ0NwazbbyvYWyXMDTModbukrb66ar501KZfNspLlyLDIQNW10IAOehXtbMIVbIcWARkKibEQ6mSIp8xLsaMDGurLo');">
+                        </div>
+                        <h4 class="font-serif text-lg text-white">Quantum Theory Lineage</h4>
+                        <p class="text-sm text-parchment/50">The architectural evolution of modern physics from Planck
+                            to now.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-[#1A1512] py-12 px-6 border-t border-[#4A3B32] text-parchment/40 text-sm">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-gold">psychology</span>
+                <span class="font-serif text-white/60">AnyMaps Atelier © 2024</span>
+            </div>
+            <div class="flex gap-8">
+                <a class="hover:text-gold transition-colors" href="#">Privacy</a>
+                <a class="hover:text-gold transition-colors" href="#">Terms</a>
+                <a class="hover:text-gold transition-colors" href="#">Documentation</a>
+                <a class="hover:text-gold transition-colors" href="#">Contact</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <div
+                    class="size-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 cursor-pointer">
+                    <span class="material-symbols-outlined text-sm">share</span>
+                </div>
+                <div
+                    class="size-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 cursor-pointer">
+                    <span class="material-symbols-outlined text-sm">mail</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

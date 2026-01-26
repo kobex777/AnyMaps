@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap');
+@import "tailwindcss";
+
+/* Custom Theme Variables for Tailwind 4.x */
+@theme {
+  --color-primary: #003366;
+  --color-background-light: #f9f7f2;
+  --color-background-dark: #0f1923;
+  --color-espresso: #2D241E;
+  --color-espresso-light: #3E3228;
+  --color-gold: #C5A059;
+  --color-parchment: #DBCBB6;
+
+  --font-family-display: "Inter", sans-serif;
+  --font-family-serif: "Playfair Display", serif;
+
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+.paper-grain {
+  background-color: #f9f7f2;
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7qS9HSUrC4oR0jVuRwQD-KftZQ0tgokLJ6wMwRFqPkA9gaEuxZp9lWU5Ke4BdZBKOgB2X-flpcRcVQ4_FL2vyx_gqgA8vxQ4owLmtLJydiwQYzwjhZ49oCD2bBHPeW5v9Xdptkq2VkNmGMm4HBaX6YwvwOPK6dRaKO9RFbkMwtK0pT2DGRuAk6_vwCdp60qdRpbAj8YwuWWIsd3u7gT3oH2plP7P822Tvgspp81qrMxL0ZGIkZ_ff07L3Gpbgj4h2TCUVV89pXhg');
+}
+
+.drafting-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, #e5e0d8 1px, transparent 1px),
+    linear-gradient(to bottom, #e5e0d8 1px, transparent 1px);
+}
+
+.hero-pattern {
+  background-color: #FFFAF0;
+  background-image:
+    radial-gradient(circle at 100% 100%, #C5A059 0, transparent 10%),
+    radial-gradient(circle at 0% 0%, #C5A059 0, transparent 10%);
+}
+
+.ink-edge {
+  mask-image: radial-gradient(circle, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);
+}
+
+.glass-dark {
+  background: rgba(45, 36, 30, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.verdant-gradient {
+  background: linear-gradient(135deg, #dcebd5 0%, #a8cabb 35%, #7aa89e 65%, #f3eecf 100%);
+  background-size: 200% 200%;
+  animation: aurora 15s ease infinite alternate;
+}
+
+.scrollbar-dark::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-dark::-webkit-scrollbar-track {
+  background: #2D241E;
+}
+
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background: #4A3B32;
+  border-radius: 3px;
+}
