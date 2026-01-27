@@ -5,8 +5,8 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
-// Default timeout for API requests (30 seconds - AI calls can be slow)
-const DEFAULT_TIMEOUT_MS = 30000;
+// Default timeout for API requests (60 seconds - AI calls can be slow)
+const DEFAULT_TIMEOUT_MS = 60000;
 
 // ============================================
 // Type Definitions (matching backend models)
