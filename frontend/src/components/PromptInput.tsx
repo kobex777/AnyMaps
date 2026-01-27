@@ -10,7 +10,7 @@ interface PromptInputProps {
 
 export function PromptInput({
     onSubmit,
-    placeholder = "e.g., Map the industrial revolution's impact on romantic literature...",
+    placeholder: _placeholder = "e.g., Map the industrial revolution's impact on romantic literature...",
     variant = 'landing',
     value: controlledValue,
     onChange: controlledOnChange,

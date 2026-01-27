@@ -16,7 +16,7 @@ interface SidebarProps {
 export function Sidebar({ onNewAtlas, isChatOpen, onToggleChat }: SidebarProps) {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [userMaps, setUserMaps] = useState<MapData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    // const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const location = useLocation();
     const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -27,12 +27,12 @@ export function Sidebar({ onNewAtlas, isChatOpen, onToggleChat }: SidebarProps) 
     // Load user's saved maps (re-runs when lastSavedAt changes)
     useEffect(() => {
         const loadMaps = async () => {
-            setIsLoading(true);
+            // setIsLoading(true);
             // Small delay to ensure auth session is ready
             await new Promise(resolve => setTimeout(resolve, 500));
             const maps = await getUserMaps();
             setUserMaps(maps);
-            setIsLoading(false);
+            // setIsLoading(false);
         };
         loadMaps();
     }, [lastSavedAt]);
