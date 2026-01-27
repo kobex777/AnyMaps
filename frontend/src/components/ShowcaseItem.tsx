@@ -65,7 +65,7 @@ export function ShowcaseItem({ item }: ShowcaseItemProps) {
                     <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10 flex justify-between items-end">
                         <div>
                             <h3 className="text-white font-bold text-xl mb-1 font-serif">{item.title}</h3>
-                            <p className="text-parchment/80 text-sm max-w-xl line-clamp-2 mb-1">{item.description}</p>
+                            {item.description && <p className="text-parchment/80 text-sm max-w-xl line-clamp-2 mb-1">{item.description}</p>}
                             {item.duration && (
                                 <p className="text-parchment/60 text-xs font-mono">Duration: {item.duration}</p>
                             )}

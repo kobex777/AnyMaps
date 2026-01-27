@@ -8,11 +8,11 @@ import type { ShowcaseItemData } from '../components/ShowcaseItem';
 const SHOWCASE_ITEMS: ShowcaseItemData[] = [
     {
         id: '1',
-        title: 'Introduction to The Atelier',
-        description: 'A guided tour through the philosophy and mechanics of AI-assisted cartography. Witness how thought becomes structure.',
+        title: 'AnyMaps: A quick demo',
+        description: '',
         type: 'youtube',
         src: 'https://youtu.be/6UT8yip7QfY', // Updated link
-        duration: '2:14',
+        duration: '4:47',
         tags: ['1080P', 'AUDIO', 'DEMO'],
         thumbnail: 'https://img.youtube.com/vi/6UT8yip7QfY/maxresdefault.jpg'
     },
