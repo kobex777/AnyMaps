@@ -12,6 +12,8 @@ import { ContactPage } from './pages/ContactPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { initAnonymousSession } from './lib/supabase';
 
+import { Analytics } from '@vercel/analytics/react';
+
 function App() {
   // TEMPORARY: Initialize anonymous session for testing persistence
   // See docs/TEMP_ANONYMOUS_AUTH.md - REMOVE BEFORE PRODUCTION
@@ -19,34 +21,37 @@ function App() {
     initAnonymousSession();
   }, []);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<NewLandingPage />} />
-        <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/signin" element={<SignInPage />} />
-        <Route path="/showcase" element={<ShowcasePage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/documentation" element={<DocumentationPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/:mapId"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<NewLandingPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/signin" element={<SignInPage />} />
+          <Route path="/showcase" element={<ShowcasePage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/documentation" element={<DocumentationPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/:mapId"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+      <Analytics />
+    </>
   );
 }
 
