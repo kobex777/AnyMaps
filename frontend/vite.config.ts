@@ -14,12 +14,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000, // Increase limit to 1MB
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom', 'zustand'],
-          xyflow: ['@xyflow/react'],
-          elkjs: ['elkjs'],
-          ui: ['clsx', 'tailwind-merge'],
-        },
+        // manualChunks removed to prevent blank page issues
       },
     },
   },
