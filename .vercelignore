@@ -30,3 +30,28 @@ __pycache__
 # Adjust based on what your API actually needs
 tests
 docs
+
+# Backend specific ignores
+backend/__pycache__
+backend/.venv
+backend/venv
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
