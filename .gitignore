@@ -13,3 +13,7 @@ Desktop.ini
 *.log
 tmp/
 temp/
+
+.venv/
+venv/
+node_modules/

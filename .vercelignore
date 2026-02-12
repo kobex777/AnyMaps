@@ -1,0 +1,32 @@
+# Vercel Ignore File
+# Exclude large directories and files not needed for the serverless function
+
+# Python environment
+.venv
+venv
+ENV
+env
+
+# Node modules
+node_modules
+frontend/node_modules
+
+# Git
+.git
+
+# Editor config
+.idea
+.vscode
+*.swp
+*.swo
+
+# Temporary files
+tmp
+temp
+__pycache__
+*.pyc
+
+# Large assets or unneeded directories
+# Adjust based on what your API actually needs
+tests
+docs
